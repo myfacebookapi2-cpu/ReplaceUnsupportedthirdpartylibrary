@@ -6,7 +6,8 @@ import com.example.onboarding.repository.EmployeeRepository;
 import com.example.onboarding.service.EmployeeCsvExporter;
 import com.example.onboarding.service.OnboardingStatusService;
 import jakarta.validation.Valid;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
-    private static final Logger log = Logger.getLogger(EmployeeController.class);
+    private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
 
     private final EmployeeRepository repository;
     private final OnboardingStatusService statusService;
@@ -40,7 +41,7 @@ public class EmployeeController {
     public Employee create(@Valid @RequestBody Employee employee) {
         employee.setId(null); // always create a new record
         Employee saved = repository.save(employee);
-        log.info("Employee created: id=" + saved.getId());
+        log.info("Employee created: id={}", saved.getId());
         return saved;
     }
 
